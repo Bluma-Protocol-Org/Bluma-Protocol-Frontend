@@ -63,7 +63,7 @@ interface IEvent {
   imageUrl: string;
   location: string;
   description: string;
-  owner: string;
+  owner: any;
   seats: number;
   capacity: number;
   regStartsTime: number;
@@ -78,6 +78,7 @@ interface IEvent {
   totalSales: number;
   createdAt: number;
   isEventPaid: boolean;
+  room: any;
 }
 
 export const dummyEvents: IEvent[] = [

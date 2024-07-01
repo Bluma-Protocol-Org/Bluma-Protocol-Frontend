@@ -1,7 +1,4 @@
-import { EnEvent, EnStatus } from "@/enums";
-import { getStatus } from "@/lib/utils";
-import { getBlumaTokenContract, ethereum } from ".";
-import { ethers } from "ethers";
+import { getBlumaTokenContract } from ".";
 
 export const getTokenTotalSupply = async () => {
   try {
