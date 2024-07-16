@@ -14,6 +14,7 @@ import {
   getAllTickets,
   getUser,
 } from "@/services/bluma-contract";
+import { getUserBalance } from "@/services/bluma-token";
 import { LayoutList, List, Plus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ interface IUserWithDetails {
   credentials: ICredential | undefined;
   hostedEvents: IEvent[] | undefined;
   attendedTickets: ITicket[] | undefined;
+  mintedTokenBalance: string | undefined
 }
 
 export default function ProfilePage({
@@ -43,6 +45,8 @@ export default function ProfilePage({
       try {
         const user: ICredential | undefined = await getUser(address);
 
+        const mintedTokenBalance = await getUserBalance(address);
+
         const events = await getAllEvents();
         const tickets = await getAllTickets();
 
@@ -56,6 +60,7 @@ export default function ProfilePage({
             (event: IEvent) => event?.owner?.address === user?.address
           ),
           attendedTickets: attendedTickets,
+          mintedTokenBalance : mintedTokenBalance.toLocaleString()
         };
 
         setCurrentUser(userWithDetails);

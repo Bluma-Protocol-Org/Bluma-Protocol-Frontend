@@ -18,6 +18,7 @@ import { toast } from "sonner";
 import { Authenticating, site } from "@/constants";
 import { useState } from "react";
 import { base64ToBlob, blobToFile, uploadBannerToPinata } from "@/lib/utils";
+import { mintTokenToUser } from "@/services/bluma-token";
 
 //? COMPONENTS IMPORT
 import {
@@ -42,6 +43,7 @@ import { signInWithCustomToken } from "firebase/auth";
 import { firebaseAuth } from "@/config/firbase";
 import { createAccountSuccessEmail } from "@/services/renderNotification";
 import Link from "next/link";
+
 
 export default function SignInPage() {
   const router = useRouter();
@@ -231,6 +233,7 @@ const EmailForm = ({
     }
   }
 
+
   return (
     <div className="flex flex-col max-w-[360px] w-full gap-4">
       <div className="w-full border rounded-[20px] backdrop-blur-3xl bg-secondary/30 flex flex-col">
@@ -259,7 +262,8 @@ const EmailForm = ({
 
           <Form {...authenticationForm}>
             <form
-              onSubmit={authenticationForm.handleSubmit(handleAuthentication)}>
+              onSubmit={authenticationForm.handleSubmit(handleAuthentication)}
+            >
               <FormField
                 disabled={
                   !isConnected ||
@@ -294,7 +298,8 @@ const EmailForm = ({
                   !address ||
                   isRegistering !== STOP ||
                   isAuthenticated
-                }>
+                }
+              >
                 {isRegistering === START ? (
                   <>
                     <Loader size={16} className="animate-spin mr-2" />
@@ -318,7 +323,8 @@ const EmailForm = ({
             variant="secondary"
             type="button"
             disabled={isConnected || isRegistering !== STOP}
-            onClick={async () => await open()}>
+            onClick={async () => await open()}
+          >
             <IoWalletOutline size={16} className="mr-2" />{" "}
             {isConnected ? "Wallet Connected" : "Connect Wallet"}
           </Button>
@@ -327,7 +333,8 @@ const EmailForm = ({
 
       <Link
         href="/market"
-        className="text-sm text-muted-foreground text-center">
+        className="text-sm text-muted-foreground text-center"
+      >
         Mint some <b className="underline text-primary">BLUM</b> tokens to keep
         using {site.name}.
       </Link>
@@ -378,6 +385,8 @@ const OtpForm = ({
 }) => {
   const { fetchUser } = useGlobalContext();
   const { STOP, START } = Authenticating;
+  const [isMintingToken, setIsMintingToken] = useState(false);
+
 
   const verificationForm = useForm<z.infer<typeof otpSchema>>({
     resolver: zodResolver(otpSchema),
@@ -436,6 +445,7 @@ const OtpForm = ({
       if (data.token) {
         await signInWithCustomToken(firebaseAuth, data.token);
         toast.success("Successfully signed in! 🎉");
+        handleMintTokens(address)
         return data;
       } else {
         toast.error("Verification failed", {
@@ -448,6 +458,20 @@ const OtpForm = ({
       console.error("Error verifying OTP:", error);
       toast.error("Error verifying OTP");
       return { error: error };
+    }
+  }
+
+
+  async function handleMintTokens(address: string) {
+    setIsMintingToken(true);
+
+    try {
+      const result = await mintTokenToUser(address, 2000);
+      console.log(result);
+    } catch (error: any) {
+      console.log("ERROR MINTING TOKEN: ", error);
+    } finally {
+      setIsMintingToken(false);
     }
   }
 
@@ -508,7 +532,8 @@ const OtpForm = ({
                 !address ||
                 isRegistering !== STOP ||
                 isAuthenticated
-              }>
+              }
+            >
               {isRegistering === START ? (
                 <>
                   <Loader size={16} className="animate-spin mr-2" />
@@ -527,7 +552,8 @@ const OtpForm = ({
           variant="secondary"
           type="button"
           disabled={isConnected || isRegistering !== STOP}
-          onClick={async () => await open()}>
+          onClick={async () => await open()}
+        >
           <IoWalletOutline size={16} className="mr-2" />{" "}
           {isConnected ? "Wallet Connected" : "Connect Wallet"}
         </Button>
