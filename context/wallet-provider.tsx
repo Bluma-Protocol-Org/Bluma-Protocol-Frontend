@@ -2,22 +2,21 @@
 
 import { site } from "@/constants";
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers/react";
-import { meterTestnet as mt } from "viem/chains";
 import { ReactNode } from "react";
 
-export const LOCALHOST_CHAIN_ID: number = 31337;
+export const LOCALHOST_CHAIN_ID: number = 1115;
 
 const projectId = process.env.NEXT_PUBLIC_W3PROJECT_ID as string;
 
 if (!projectId) throw new Error("No project ID found");
 
-const meterTestnet = {
-  chainId: mt.id,
-  name: mt.name,
-  currency: mt.nativeCurrency.symbol,
-  explorerUrl: mt.blockExplorers.default.url,
-  rpcUrl: mt.rpcUrls.default.http[0],
-};
+const coreTestnet = {
+  chainId:1115,
+  name: "Core Blockchain Testnet",
+  currency: "tCORE",
+  explorerUrl:"https://scan.test.btcs.network",
+  rpcUrl:"https://rpc.test.btcs.network",
+}
 
 const metadata = {
   name: site.name,
@@ -33,7 +32,7 @@ const ethersConfig = defaultConfig({
 
 createWeb3Modal({
   ethersConfig,
-  chains: [meterTestnet],
+  chains: [coreTestnet],
   projectId: projectId,
   enableOnramp: true,
   enableAnalytics: true,
