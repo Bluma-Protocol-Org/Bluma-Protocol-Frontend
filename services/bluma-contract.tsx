@@ -135,6 +135,7 @@ export const createEvent = async (event: ICreateEvent) => {
     );
 
     const result = await tx.wait();
+    
     if (!result.status) {
       reportError("ERROR CREATING EVENT...");
       return Promise.reject("ERROR CREATING EVENT...");

@@ -160,11 +160,9 @@ export default function CreateEventPage() {
       const result = await createEvent(refinedValues);
 
       if (result) {
-        const eventTitle = ethers.decodeBytes32String(refinedValues?.title);
-
         await createEventSuccessEmail(
           credentials?.email!,
-          eventTitle,
+          refinedValues?.title,
           refinedValues?.location
         );
         toast.success("Event created successfully");
