@@ -61,12 +61,14 @@ export default function MarketPage() {
     setIsMintingToken(true);
 
     try {
-      if (Number(values?.tokens) > 2000)
+      const tokenAmount = BigInt(values?.tokens) * BigInt(10**18);
+      const maxTokens = BigInt(2000) * BigInt(10**18);
+      if (tokenAmount > maxTokens)
         return toast.info("You can only mint up to 2000 tokens");
 
       const result = await mintTokenToUser(
         values?.address,
-        Number(values?.tokens)
+        tokenAmount
       );
       console.log(result);
     } catch (error: any) {
@@ -97,8 +99,8 @@ export default function MarketPage() {
     const balance = await getUserBalance(address);
 
     setUserBalance(balance.toLocaleString());
-    setTotalSupply(totalSupply.toLocaleString());
-    setRemainingSupply(remainingSupply.toLocaleString());
+    setTotalSupply((totalSupply / 10**18).toLocaleString());
+    setRemainingSupply((remainingSupply / 10**18).toLocaleString());
     setHasMinted(hasMinted);
   };
 
@@ -232,7 +234,7 @@ export default function MarketPage() {
                           placeholder="Enter number of tokens"
                           type="number"
                           disabled={isMintingToken || !isConnected || hasMinted}
-                          max={2000}
+                          max={2000*10**18}
                           {...field}
                         />
                       </FormControl>

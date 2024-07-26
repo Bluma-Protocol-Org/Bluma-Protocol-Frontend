@@ -46,7 +46,7 @@ export default function SendMessage({ eventId }: { eventId: number }) {
   async function onSubmit(values: z.infer<typeof sendMessageSchema>) {
     if (isCoolDown) {
       toast.error(
-        "Please wait for the cool down period to end before sending another message."
+        "Please wait for the cool down period to end before sending another message.",
       );
       return;
     }
@@ -57,7 +57,7 @@ export default function SendMessage({ eventId }: { eventId: number }) {
       if (data?.success) {
         toast.success("Message sent successfully! 🎉");
         form.reset({ message: "" });
-        setIsCoolDown(true);
+        // setIsCoolDown(false);
       } else {
         toast.error("Something went wrong");
       }
@@ -72,20 +72,22 @@ export default function SendMessage({ eventId }: { eventId: number }) {
     <div className="sticky bottom-0 rounded-full bg-background px-4 py-2 z-10">
       {isCoolDown ? (
         <CoolDownTimer
-          initialSeconds={60}
+          initialSeconds={2}
           onCoolDownComplete={handleCoolDownComplete}
         />
       ) : (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex items-end w-full h-max">
+            className="flex items-end w-full h-max"
+          >
             <Button
               disabled
               type="button"
               variant="ghost"
               size="icon"
-              className="rounded-full size-10 sm:size-11 hidden sm:flex">
+              className="rounded-full size-10 sm:size-11 hidden sm:flex"
+            >
               <ImageIcon size={18} />
             </Button>
             <Button
@@ -93,7 +95,8 @@ export default function SendMessage({ eventId }: { eventId: number }) {
               type="button"
               variant="ghost"
               size="icon"
-              className="rounded-full size-10 sm:size-11 hidden md:flex">
+              className="rounded-full size-10 sm:size-11 hidden md:flex"
+            >
               <VideoIcon size={18} />
             </Button>
             <Button
@@ -101,7 +104,8 @@ export default function SendMessage({ eventId }: { eventId: number }) {
               type="button"
               variant="ghost"
               size="icon"
-              className="rounded-full size-10 sm:size-11 hidden lg:flex">
+              className="rounded-full size-10 sm:size-11 hidden lg:flex"
+            >
               <MicIcon size={18} />
             </Button>
 
@@ -133,7 +137,8 @@ export default function SendMessage({ eventId }: { eventId: number }) {
               variant="secondary"
               size="icon"
               className="rounded-full size-10 sm:size-11"
-              disabled={isSendingMessage}>
+              disabled={isSendingMessage}
+            >
               {isSendingMessage ? (
                 <Loader size={16} className="animate-spin" />
               ) : (
@@ -174,7 +179,7 @@ const CoolDownTimer = ({
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${String(minutes).padStart(2, "0")}:${String(
-      remainingSeconds
+      remainingSeconds,
     ).padStart(2, "0")}`;
   };
 

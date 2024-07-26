@@ -11,12 +11,20 @@ const projectId = process.env.NEXT_PUBLIC_W3PROJECT_ID as string;
 if (!projectId) throw new Error("No project ID found");
 
 const coreTestnet = {
-  chainId:1115,
+  chainId: 1115,
   name: "Core Blockchain Testnet",
   currency: "tCORE",
-  explorerUrl:"https://scan.test.btcs.network",
-  rpcUrl:"https://rpc.test.btcs.network",
-}
+  explorerUrl: "https://scan.test.btcs.network",
+  rpcUrl: "https://rpc.test.btcs.network",
+};
+
+const ethSepolia = {
+  chainId: 11155111,
+  name: "Ethereum Sepolia",
+  currency: "ETH",
+  explorerUrl: "https://sepolia.etherscan.io/",
+  rpcUrl: process.env.NEXT_PUBLIC_RPC_URL as string,
+};
 
 const metadata = {
   name: site.name,

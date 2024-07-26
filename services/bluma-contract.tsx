@@ -320,16 +320,42 @@ export const createSpace = async (eventId: number) => {
   }
 };
 
-export const purchaseTicket = async (eventId: any, numberOfTickets: number) => {
+export const purchaseFreeTicket = async (eventId: any, numberOfTickets: number) => {
   if (!window.ethereum) {
     throw new Error("Please install a browser provider");
   }
 
   try {
     const contract = await getBlumaContracts();
-    const tx = await contract.purchaseTicket(eventId, numberOfTickets);
+    const tx = await contract.purchaseFreeTicket(eventId, numberOfTickets);
 
     const result = await tx.wait();
+
+    console.log(result);
+    
+
+    if (!result.status) throw new Error("Failed to purchase ticket");
+
+    return result;
+  } catch (error) {
+    reportError(error);
+    throw error;
+  }
+};
+
+export const purchasePaidTicket = async (eventId: any, numberOfTickets: number) => {
+  if (!window.ethereum) {
+    throw new Error("Please install a browser provider");
+  }
+
+  try {
+    const contract = await getBlumaContracts();
+    const tx = await contract.purchasePaidTicket(eventId, numberOfTickets);
+
+    const result = await tx.wait();
+
+    console.log(result);
+    
 
     if (!result.status) throw new Error("Failed to purchase ticket");
 

@@ -21,7 +21,8 @@ import {
   getGroupMembersOfAnEvent,
   joinGroup,
   mintNFT,
-  purchaseTicket,
+  purchaseFreeTicket,
+  purchasePaidTicket,
   refundFee,
   withdrawEventFee,
 } from "@/services/bluma-contract";
@@ -1225,10 +1226,20 @@ const BuyTicketPopup = ({
 
     setIsPurchasing(true);
     try {
-      const someonePurchaseTicket = await purchaseTicket(
-        Number(eventId),
-        Number(numTicket)
-      );
+      let someonePurchaseTicket;
+
+      if (eventType === "FREE") {
+        someonePurchaseTicket = await purchaseFreeTicket(
+          Number(eventId),
+          Number(numTicket)
+        );
+      } else {
+        someonePurchaseTicket = await purchasePaidTicket(
+          Number(eventId),
+          Number(numTicket)
+        );
+      }
+      
 
       if (someonePurchaseTicket) {
         const result = await purchaseTicketSuccessEmail(
