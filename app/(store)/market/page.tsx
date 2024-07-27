@@ -61,15 +61,12 @@ export default function MarketPage() {
     setIsMintingToken(true);
 
     try {
-      const tokenAmount = BigInt(values?.tokens) * BigInt(10**18);
-      const maxTokens = BigInt(2000) * BigInt(10**18);
+      const tokenAmount = BigInt(values?.tokens) * BigInt(10 ** 18);
+      const maxTokens = BigInt(2000) * BigInt(10 ** 18);
       if (tokenAmount > maxTokens)
         return toast.info("You can only mint up to 2000 tokens");
 
-      const result = await mintTokenToUser(
-        values?.address,
-        tokenAmount
-      );
+      const result = await mintTokenToUser(values?.address, tokenAmount);
       console.log(result);
     } catch (error: any) {
       console.log("ERROR MINTING TOKEN: ", error);
@@ -98,9 +95,9 @@ export default function MarketPage() {
     const hasMinted = await checkIfUserHasMinted(address);
     const balance = await getUserBalance(address);
 
-    setUserBalance(balance.toLocaleString());
-    setTotalSupply((totalSupply / 10**18).toLocaleString());
-    setRemainingSupply((remainingSupply / 10**18).toLocaleString());
+    setUserBalance((balance / 10 ** 18).toLocaleString());
+    setTotalSupply((totalSupply / 10 ** 18).toLocaleString());
+    setRemainingSupply((remainingSupply / 10 ** 18).toLocaleString());
     setHasMinted(hasMinted);
   };
 
@@ -139,7 +136,8 @@ export default function MarketPage() {
           <div className="p-1.5 bg-secondary rounded-lg cursor-pointer w-full sm:w-max">
             <div
               className="px-4 sm:px-3 py-2.5 sm:py-1.5 bg-background rounded-md"
-              onClick={() => address && handleCopy(`${address}`)}>
+              onClick={() => address && handleCopy(`${address}`)}
+            >
               <p className="text-xs md:text-sm">
                 {copied ? "Copied" : "Account"}:{" "}
                 <b>{shortenAddress(`${address}`)}</b>
@@ -151,7 +149,8 @@ export default function MarketPage() {
             <div className="px-4 sm:px-3 py-2.5 sm:py-1.5 bg-background rounded-md">
               <p
                 className="text-xs md:text-sm"
-                onClick={async () => await open()}>
+                onClick={async () => await open()}
+              >
                 Connect Wallet
               </p>
             </div>
@@ -220,7 +219,8 @@ export default function MarketPage() {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="flex flex-col gap-2">
+                className="flex flex-col gap-2"
+              >
                 <FormField
                   disabled={isMintingToken || !isConnected || hasMinted}
                   control={form.control}
@@ -234,7 +234,7 @@ export default function MarketPage() {
                           placeholder="Enter number of tokens"
                           type="number"
                           disabled={isMintingToken || !isConnected || hasMinted}
-                          max={2000*10**18}
+                          max={2000 * 10 ** 18}
                           {...field}
                         />
                       </FormControl>
@@ -271,7 +271,8 @@ export default function MarketPage() {
                 <Button
                   type="submit"
                   className="mt-4"
-                  disabled={isMintingToken || !isConnected || hasMinted}>
+                  disabled={isMintingToken || !isConnected || hasMinted}
+                >
                   {hasMinted ? (
                     "Already Minted"
                   ) : isMintingToken ? (

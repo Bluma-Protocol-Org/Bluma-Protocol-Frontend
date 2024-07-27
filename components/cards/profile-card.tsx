@@ -90,7 +90,7 @@ export default function ProfileCard({
                 <b>{currentUser?.attendedTickets?.length || 0}</b> Attended
               </p>
               <p className="text-xs md:text-sm border-r px-4">
-                <b>{currentUser?.credentials?.balance} ETH</b> Earnings
+                <b>{currentUser?.credentials?.balance} BLUM</b> Earnings
               </p>
               <p className="text-xs md:text-sm pl-4">
                 <b>{currentUser?.mintedTokenBalance} BLUM</b> Minted

@@ -61,8 +61,11 @@ import { RiNftLine, RiShareForward2Fill } from "react-icons/ri";
 import { MintingNFT } from "@/constants";
 import {
   emitEventNotification,
+  handlePayWithStripe,
   purchaseTicketSuccessEmail,
 } from "@/services/renderNotification";
+import PayWithStripe from "@/components/shared/pay-with-stripe";
+import { BsStripe } from "react-icons/bs";
 
 export default function EventDetails({ params }: { params: { id: number } }) {
   const { credentials } = useGlobalContext();
@@ -71,6 +74,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
     useState<boolean>(true);
   const [event, setEvent] = useState<IEvent | undefined>();
   const [isPurchasing, setIsPurchasing] = useState(false);
+  const [isPurchasingWithStripe, setIsPurchasingWithStripe] = useState(false);
   const [numTicket, setNumTicket] = useState();
   const [ticketBuyers, setTicketBuyers] = useState<any[] | undefined>([]);
   const [hasJoinedGroup, setHasJoinedGroup] = useState(false);
@@ -109,7 +113,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Filter out the admin from the ticket buyers
         const nonAdminTicketBuyers = allTickets.filter(
           (ticket: any) =>
-            ticket.buyer.toLowerCase() !== event?.owner?.address.toLowerCase()
+            ticket.buyer.toLowerCase() !== event?.owner?.address.toLowerCase(),
         );
 
         // Set the ticket buyers excluding the admin
@@ -118,7 +122,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Check if the current user has bought a ticket
         const hasBoughtTicket = nonAdminTicketBuyers.some(
           (ticket: any) =>
-            ticket.buyer.toLowerCase() === credentials?.address.toLowerCase()
+            ticket.buyer.toLowerCase() === credentials?.address.toLowerCase(),
         );
         setHasBoughtTicket(hasBoughtTicket);
       }
@@ -129,7 +133,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Check if current user is in the group
         const isMemberInGroup = members.some(
           (member: any) =>
-            member.address.toLowerCase() === credentials?.address.toLowerCase()
+            member.address.toLowerCase() === credentials?.address.toLowerCase(),
         );
         setHasJoinedGroup(isMemberInGroup);
       }
@@ -163,7 +167,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "TicketPurchased",
         async (buyer, _eventId, numberOfTickets) => {
           await fetchEventData(Number(_eventId));
-        }
+        },
       );
 
       // RefundIssued event listener
@@ -171,7 +175,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "RefundIssued",
         async (buyer, _ticketId, _eventId, amount) => {
           await fetchEventData(Number(_eventId));
-        }
+        },
       );
 
       // GroupCreated event listener
@@ -184,7 +188,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "GroupJoinedSuccessfully",
         async (_sender, _eventId, _joinedTimw) => {
           await fetchEventData(Number(_eventId));
-        }
+        },
       );
 
       return () => {
@@ -200,6 +204,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
     eventId: params?.id,
     isPurchasing,
     setIsPurchasing,
+    isPurchasingWithStripe,
+    setIsPurchasingWithStripe,
     setNumTicket,
     numTicket,
     seats: event?.seats,
@@ -209,6 +215,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
     creatorEmail: event?.owner?.email,
     title: event?.title,
     location: event?.location,
+    ticketPrice: event?.ticketPrice,
   };
 
   const joinGroupProps: any = {
@@ -241,7 +248,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
 
               <Link
                 href={`/profile/${event?.owner?.address}`}
-                className="text-sm flex items-center gap-2 w-max group">
+                className="text-sm flex items-center gap-2 w-max group"
+              >
                 <span className="size-5 bg-secondary rounded-full border relative">
                   <Image
                     alt={event?.owner?.address as string}
@@ -273,7 +281,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 {ticketBuyers?.slice(0, 6)?.map((member) => (
                   <span
                     className="size-8 bg-secondary rounded-full relative border-4 border-background first:-ml-1 -ml-3"
-                    key={member?.email}>
+                    key={member?.email}
+                  >
                     <Image
                       alt={member?.address as string}
                       src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${member?.avatar}`}
@@ -292,7 +301,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     <>
                       <Link
                         href={`/profile/${ticketBuyers[0]?.address}`}
-                        className="font-semibold">
+                        className="font-semibold"
+                      >
                         {shortenAddress(ticketBuyers[0]?.address)}
                       </Link>{" "}
                       only.
@@ -301,13 +311,15 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     <>
                       <Link
                         href={`/profile/${ticketBuyers[0]?.address}`}
-                        className="font-semibold">
+                        className="font-semibold"
+                      >
                         {shortenAddress(ticketBuyers[0]?.address)}
                       </Link>{" "}
                       and{" "}
                       <Link
                         href={`/profile/${ticketBuyers[1]?.address}`}
-                        className="font-semibold">
+                        className="font-semibold"
+                      >
                         {shortenAddress(ticketBuyers[1]?.address)}
                       </Link>{" "}
                       only.
@@ -316,13 +328,15 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     <>
                       <Link
                         href={`/profile/${ticketBuyers[0]?.address}`}
-                        className="font-semibold">
+                        className="font-semibold"
+                      >
                         {shortenAddress(ticketBuyers[0]?.address)}
                       </Link>{" "}
                       and{" "}
                       <Link
                         href={`/profile/${ticketBuyers[1]?.address}`}
-                        className="font-semibold">
+                        className="font-semibold"
+                      >
                         {shortenAddress(ticketBuyers[1]?.address)}
                       </Link>{" "}
                       and {ticketBuyers.length - 2} others.
@@ -403,7 +417,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
               <Link
                 href={event?.location!}
                 target="_blank"
-                className="text-sm sm:text-base text-foreground leading-none">
+                className="text-sm sm:text-base text-foreground leading-none"
+              >
                 {event?.location}
               </Link>
             )}
@@ -420,12 +435,12 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                   !event.room?.imageUrl
                     ? "Create a room"
                     : event.room.members.length === 1
-                    ? "No one has joined your group"
-                    : event.room.members.length === 2
-                    ? "There's someone in your group, say hello!"
-                    : `You have ${
-                        event.room.members.length - 1
-                      } members in your group`)}
+                      ? "No one has joined your group"
+                      : event.room.members.length === 2
+                        ? "There's someone in your group, say hello!"
+                        : `You have ${
+                            event.room.members.length - 1
+                          } members in your group`)}
               </p>
 
               {!event?.room?.title &&
@@ -436,7 +451,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 <Button className="rounded-md" variant="secondary" asChild>
                   <Link
                     href={`/rooms/${event?.room?.eventId}`}
-                    className="flex items-center">
+                    className="flex items-center"
+                  >
                     <PiWechatLogoDuotone className="mr-2" size={15} />
                     Go to Room
                   </Link>
@@ -498,7 +514,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
 
                   <Link
                     href={`/profile/${credentials?.address}`}
-                    className="text-sm font-medium">
+                    className="text-sm font-medium"
+                  >
                     {credentials?.email}
                   </Link>
                 </div>
@@ -572,10 +589,12 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     className="rounded-md w-max"
                     variant="secondary"
                     size="sm"
-                    asChild>
+                    asChild
+                  >
                     <Link
                       href={`/rooms/${event?.room?.eventId}`}
-                      className="flex items-center">
+                      className="flex items-center"
+                    >
                       <PiWechatLogoDuotone className="mr-2" size={15} />
                       Go to Room
                     </Link>
@@ -585,7 +604,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     <Button
                       className="rounded-md w-max"
                       variant="secondary"
-                      size="sm">
+                      size="sm"
+                    >
                       <PiWechatLogoDuotone className="mr-2" size={15} />
                       Join Room
                     </Button>
@@ -595,7 +615,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 <Button
                   className="rounded-md w-max"
                   variant="secondary"
-                  size="sm">
+                  size="sm"
+                >
                   <RiShareForward2Fill className="mr-2" size={15} />
                   Invite a friend
                 </Button>
@@ -838,7 +859,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                   {...props}
                 />
               ),
-            }}>
+            }}
+          >
             {event?.description}
           </ReactMarkdown>
         </div>
@@ -947,7 +969,8 @@ const CancelRegistration = ({ eventId }: { eventId: number }) => {
         <Button
           disabled={isCanceling}
           onClick={handleCancelation}
-          variant="destructive">
+          variant="destructive"
+        >
           {isCanceling ? (
             <>
               <Loader size={16} className="mr-2 animate-spin" />
@@ -991,7 +1014,8 @@ const CreateGroupPopup = ({ eventId }: { eventId: number }) => {
         <Button
           variant="secondary"
           className="flex-1"
-          disabled={isCreatingGroup}>
+          disabled={isCreatingGroup}
+        >
           {isCreatingGroup ? (
             <>
               <Loader size={16} className="mr-2 animate-spin" />
@@ -1065,7 +1089,7 @@ const MintingNFTPopup = ({ eventId }: { eventId: number }) => {
 
       const result = await mintNFT(
         Number(eventId),
-        `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${nft}`
+        `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${nft}`,
       );
 
       if (result) {
@@ -1133,8 +1157,9 @@ const MintingNFTPopup = ({ eventId }: { eventId: number }) => {
               {
                 "border-0 cursor-not-allowed opacity-50":
                   isMinting !== MintingNFT.STOP,
-              }
-            )}>
+              },
+            )}
+          >
             <div className="relative size-full rounded-[inherit] overflow-hidden">
               {isMinting === MintingNFT.STOP && (
                 <div className="size-full absolute top-0 left-0 select-none pointer-events-none opacity-0 group-hover:opacity-100 duration-300 flex items-center justify-center bg-background/50 backdrop-blur-xl z-10">
@@ -1183,6 +1208,8 @@ const BuyTicketPopup = ({
   eventId,
   isPurchasing,
   setIsPurchasing,
+  isPurchasingWithStripe,
+  setIsPurchasingWithStripe,
   numTicket,
   setNumTicket,
   seats,
@@ -1193,10 +1220,13 @@ const BuyTicketPopup = ({
   creatorEmail,
   title,
   location,
+  ticketPrice,
 }: {
   eventId: number;
   setIsPurchasing: any;
   isPurchasing: boolean;
+  setIsPurchasingWithStripe: any;
+  isPurchasingWithStripe: boolean;
   numTicket: number;
   setNumTicket: any;
   seats: number;
@@ -1207,7 +1237,9 @@ const BuyTicketPopup = ({
   creatorEmail: string;
   title: string;
   location: string;
+  ticketPrice: number;
 }) => {
+  const router = useRouter();
   async function handleSubmit(e: any) {
     e.preventDefault();
     if (!numTicket) {
@@ -1227,19 +1259,19 @@ const BuyTicketPopup = ({
     setIsPurchasing(true);
     try {
       let someonePurchaseTicket;
-
+      console.log(eventType);
       if (eventType === "FREE") {
         someonePurchaseTicket = await purchaseFreeTicket(
           Number(eventId),
-          Number(numTicket)
-        );
-      } else {
-        someonePurchaseTicket = await purchasePaidTicket(
-          Number(eventId),
-          Number(numTicket)
+          Number(numTicket),
         );
       }
-      
+      if (eventType === "PAID") {
+        someonePurchaseTicket = await purchaseFreeTicket(
+          Number(eventId),
+          Number(numTicket),
+        );
+      }
 
       if (someonePurchaseTicket) {
         const result = await purchaseTicketSuccessEmail(
@@ -1247,7 +1279,7 @@ const BuyTicketPopup = ({
           creatorEmail,
           title,
           Number(numTicket),
-          location
+          location,
         );
 
         if (result) {
@@ -1257,7 +1289,7 @@ const BuyTicketPopup = ({
           });
         } else {
           console.log(
-            "There was an error processing the ticket purchase and/or notification."
+            "There was an error processing the ticket purchase and/or notification.",
           );
         }
         toast.success("You now have a space in this event.");
@@ -1266,6 +1298,41 @@ const BuyTicketPopup = ({
     } catch (error: any) {
       console.log("FAILED TO PURCHASE TICKET:", error);
       setIsPurchasing(false);
+    }
+  }
+
+  async function handleStripePayment() {
+    if (!numTicket) {
+      toast.info("Please provide the number of tickets.");
+      return;
+    } else if (numTicket < 1) {
+      toast.info("You need to purchase at least 1 ticket");
+      return;
+    } else if (numTicket > 5) {
+      toast.info("You can only purchase at most 5 tickets");
+      return;
+    } else if (Number(numTicket) + seats > capacity) {
+      toast.info("Not enough seats available");
+      return;
+    }
+    setIsPurchasingWithStripe(true);
+    try {
+      const amount = Number(numTicket) * Number(ticketPrice);
+      const stripeResult = await handlePayWithStripe(
+        amount,
+        title,
+        Number(numTicket),
+        `http://localhost:3000/event/event-payment-success?eventId=${eventId}&numTicket=${numTicket}&title=${title}&location=${location}&purchaserEmail=${purchaserEmail}&creatorEmail=${creatorEmail}`,
+      );
+
+      if (stripeResult) {
+        router.push(stripeResult.toString());
+      }
+    } catch (error) {
+      console.error("Failed to purchase ticket:", error);
+      setIsPurchasingWithStripe(false);
+    } finally {
+      setIsPurchasingWithStripe(false);
     }
   }
 
@@ -1302,15 +1369,14 @@ const BuyTicketPopup = ({
               disabled={isPurchasing}
             />
           </div>
-
           <Label className="text-xs italic">
             Seats Left: {capacity - seats}
           </Label>
-
           <Button
             disabled={isPurchasing || seats >= capacity}
             type="submit"
-            className="mt-3">
+            className="mt-3"
+          >
             {isPurchasing ? (
               <>
                 <Loader size={16} className="animate-spin mr-2" />
@@ -1322,6 +1388,28 @@ const BuyTicketPopup = ({
               "Buy Ticket"
             )}
           </Button>
+
+          <Button
+            variant="outline"
+            className="flex rounded-lg mt-3 items-center space-x-2"
+            onClick={(e) => {
+              e.preventDefault();
+              handleStripePayment();
+            }}
+          >
+            {isPurchasingWithStripe ? (
+              <>
+                <Loader size={16} className="animate-spin mr-2" />
+                Please wait...
+              </>
+            ) : (
+              <span className="flex items-center">
+                <BsStripe size={18} />
+                <span className="ml-2">Pay with Stripe</span>
+              </span>
+            )}
+          </Button>
+
           <AlertDialogCancel className="absolute top-2 right-2 p-0 bg-transparent hover:bg-transparent border-0 size-9 rounded-full">
             <X size={16} />
           </AlertDialogCancel>

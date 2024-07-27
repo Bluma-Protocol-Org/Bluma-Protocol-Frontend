@@ -594,7 +594,7 @@ export default function CreateEventPage() {
                     </div>
 
                     <h1 className="text-lg md:text-[22px] font-bold">
-                      Ticket cost (ETH)
+                      Ticket cost (BLUM)
                     </h1>
                     <p className="text-xs md:text-sm text-muted-foreground -mt-2">
                       You have the option to make your tickets free or for sale.

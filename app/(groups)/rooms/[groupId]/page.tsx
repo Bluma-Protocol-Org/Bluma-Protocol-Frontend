@@ -79,19 +79,19 @@ export default function GroupChatPage({
         }
       };
 
-      contract.on("0xbe7fb5d7", messageSentHandler);
+      contract.on("MessageSent", messageSentHandler);
 
       // Return cleanup function to remove the event listener when component unmounts
       return () => {
         if (contract) {
-          contract.off("0xbe7fb5d7", messageSentHandler);
+          contract.off("MessageSent", messageSentHandler);
         }
       };
     })();
 
     return () => {
       if (contract) {
-        contract.removeAllListeners("0xbe7fb5d7");
+        contract.removeAllListeners("MessageSent");
       }
     };
   }, []);
