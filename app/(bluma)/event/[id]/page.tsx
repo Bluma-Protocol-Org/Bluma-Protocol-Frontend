@@ -21,6 +21,7 @@ import {
   getGroupMembersOfAnEvent,
   joinGroup,
   mintNFT,
+  mintNFTsForAttendees,
   purchaseFreeTicket,
   purchasePaidTicket,
   refundFee,
@@ -355,7 +356,11 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 Mint NFT to participants
               </p>
 
-              <MintingNFTPopup eventId={event?.eventId!} />
+              <MintingNFTPopup
+                eventUri={event?.nftUrl!}
+                creator={event?.owner}
+                ticketBuyers={ticketBuyers}
+              />
             </div>
           )}
         </div>
@@ -1062,7 +1067,15 @@ const CreateGroupPopup = ({ eventId }: { eventId: number }) => {
   );
 };
 
-const MintingNFTPopup = ({ eventId }: { eventId: number }) => {
+const MintingNFTPopup = ({
+  eventUri,
+  creator,
+  ticketBuyers,
+}: {
+  eventUri: string;
+  creator: any;
+  ticketBuyers: any;
+}) => {
   const defaultNFT = "QmR2L6f8Z489SNoSP2rXeCEMv5V3Sf6TM4CZKEpjSMiQ4a";
 
   const [eventNFT, setEventNFT] = useState<File>();
@@ -1087,10 +1100,7 @@ const MintingNFTPopup = ({ eventId }: { eventId: number }) => {
 
       setIsMinting(MintingNFT.START);
 
-      const result = await mintNFT(
-        Number(eventId),
-        `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${nft}`,
-      );
+      const result = await mintNFTsForAttendees(eventUri, ticketBuyers);
 
       if (result) {
         toast.success("Minted successfully");

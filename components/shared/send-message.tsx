@@ -30,7 +30,13 @@ import { RocketIcon } from "@radix-ui/react-icons";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-export default function SendMessage({ eventId }: { eventId: number }) {
+export default function SendMessage({
+  eventId,
+  getMessages,
+}: {
+  eventId: number;
+  getMessages: any;
+}) {
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [isCoolDown, setIsCoolDown] = useState(false);
 
@@ -58,6 +64,7 @@ export default function SendMessage({ eventId }: { eventId: number }) {
         toast.success("Message sent successfully! 🎉");
         form.reset({ message: "" });
         // setIsCoolDown(false);
+        getMessages();
       } else {
         toast.error("Something went wrong");
       }

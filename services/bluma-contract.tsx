@@ -1,6 +1,10 @@
 import { EnEvent, EnStatus } from "@/enums";
 import { getStatus } from "@/lib/utils";
-import { getBlumaContracts, getBlumaTokenContract } from "./index";
+import {
+  getBlumaContracts,
+  getBlumaTokenContract,
+  getBlumaNFTContract,
+} from "./index";
 import { ethers } from "ethers";
 
 export const checkIfUserIsRegistered = async (address: string) => {
@@ -294,6 +298,56 @@ export const mintNFT = async (eventId: number, nftCID: string) => {
     if (!result.status) throw new Error("Failed to mint nft");
 
     return result;
+  } catch (error) {
+    reportError(error);
+    throw error;
+  }
+};
+
+// export const mintNFTsForAttendees = async (eventId: number) => {
+//   if (!window.ethereum) {
+//     throw new Error("Please install a browser provider");
+//   }
+//   try {
+//     const contract = await getBlumaContracts();
+//     // console.log({ eventId,  });
+//     const tx = await contract.mintNFTsForAttendees(eventId);
+
+//     const result = await tx.wait();
+
+//     if (!result.status) throw new Error("Failed to mint nft");
+
+//     return result;
+//   } catch (error) {
+//     reportError(error);
+//     throw error;
+//   }
+// };
+
+export const mintNFTsForAttendees = async (
+  eventNFT: string,
+  // creator: string,
+  ticketBuyers: any[],
+) => {
+  if (!window.ethereum) {
+    throw new Error("Please install a browser provider");
+  }
+  try {
+    const contract = await getBlumaContracts();
+    const nftContract = await getBlumaNFTContract();
+    // const tx = await nftContract.safeMint(creator, eventNFT);
+    for (let i = 0; i < ticketBuyers.length; i++) {
+      const tx = await nftContract.safeMint(
+        ticketBuyers[i]?.address.toString(),
+        eventNFT,
+      );
+
+      const result = await tx.wait();
+
+      if (!result.status) throw new Error("Failed to mint nft");
+
+      return result;
+    }
   } catch (error) {
     reportError(error);
     throw error;

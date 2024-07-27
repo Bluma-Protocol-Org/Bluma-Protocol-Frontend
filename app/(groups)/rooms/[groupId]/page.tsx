@@ -187,7 +187,7 @@ export default function GroupChatPage({
           <div ref={messagesEndRef} />
         </div>
       )}
-      <SendMessage eventId={params?.groupId} />
+      <SendMessage eventId={params?.groupId} getMessages={fetchData} />
     </>
   );
 }
