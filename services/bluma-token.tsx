@@ -40,6 +40,7 @@ export const getUserBalance = async (address: string) => {
 
     const contract = await getBlumaTokenContract();
     const balance: number = await contract.balanceOf(address);
+    console.log(balance);
 
     return Number(balance);
   } catch (error) {
@@ -64,14 +65,14 @@ export const checkIfUserHasMinted = async (address: string) => {
   }
 };
 
-export const mintTokenToUser = async (address: string, amount: number) => {
+export const mintTokenToUser = async (address: string, amount: bigint) => {
   if (!window.ethereum) {
     throw new Error("Please install a browser provider");
   }
   try {
     const contract = await getBlumaTokenContract();
 
-    const tx = await contract.mint(address, Number(amount));
+    const tx = await contract.mint(address, BigInt(amount));
     const result = await tx.wait();
 
     if (!result.status) throw new Error("Could not mint token");

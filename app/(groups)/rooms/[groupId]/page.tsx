@@ -62,7 +62,7 @@ export default function GroupChatPage({
         sender: any,
         groupId: number,
         text: string,
-        timestamp: number
+        timestamp: number,
       ) => {
         if (sender !== credentials?.address) {
           const user = await getUser(sender);
@@ -121,7 +121,8 @@ export default function GroupChatPage({
             item.type === "member" ? (
               <div
                 key={item.timestamp}
-                className="flex items-center w-full justify-center gap-4 py-4">
+                className="flex items-center w-full justify-center gap-4 py-4"
+              >
                 <span className="h-px flex-1 bg-gradient-to-r from-transparent to-secondary" />
                 <p className="text-xs text-muted-foreground italic">
                   {item.email} joined
@@ -133,7 +134,8 @@ export default function GroupChatPage({
                 <div
                   className={cn("flex items-center gap-3 mb-2 sm:mb-0", {
                     "flex-row-reverse": item?.sender === credentials?.address,
-                  })}>
+                  })}
+                >
                   <div className="rounded-lg hidden sm:flex bg-secondary size-6 relative">
                     <Image
                       src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${item?.avatar}`}
@@ -153,7 +155,8 @@ export default function GroupChatPage({
                       item?.sender === credentials?.address,
                     "justify-start pl-0 sm:pl-9":
                       item?.sender !== credentials?.address,
-                  })}>
+                  })}
+                >
                   <div className="w-max max-w-[calc(100%-10%)] sm:max-w-lg">
                     <div className="w-full">
                       <ReactMarkdown
@@ -171,19 +174,20 @@ export default function GroupChatPage({
                               {...props}
                             />
                           ),
-                        }}>
+                        }}
+                      >
                         {item?.text}
                       </ReactMarkdown>
                     </div>
                   </div>
                 </div>
               </div>
-            )
+            ),
           )}
           <div ref={messagesEndRef} />
         </div>
       )}
-      <SendMessage eventId={params?.groupId} />
+      <SendMessage eventId={params?.groupId} getMessages={fetchData} />
     </>
   );
 }

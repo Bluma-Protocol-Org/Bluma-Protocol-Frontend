@@ -12,6 +12,7 @@ interface IUserWithDetails {
   credentials: ICredential | undefined;
   hostedEvents: IEvent[] | undefined;
   attendedTickets: ITicket[] | undefined;
+  mintedTokenBalance: string | undefined
 }
 
 export default function ProfileCard({
@@ -88,8 +89,11 @@ export default function ProfileCard({
               <p className="text-xs md:text-sm border-r px-4">
                 <b>{currentUser?.attendedTickets?.length || 0}</b> Attended
               </p>
+              <p className="text-xs md:text-sm border-r px-4">
+                <b>{currentUser?.credentials?.balance} BLUM</b> Earnings
+              </p>
               <p className="text-xs md:text-sm pl-4">
-                <b>{currentUser?.credentials?.balance} ETH</b> Earnings
+                <b>{currentUser?.mintedTokenBalance} BLUM</b> Minted
               </p>
             </div>
           </div>

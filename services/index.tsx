@@ -30,10 +30,10 @@ export const getRequiredSigner = async () => {
       signer = await provider.getSigner();
       return signer;
     } else {
-      // provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
-      provider = new ethers.WebSocketProvider(
-        process.env.NEXT_PUBLIC_WEB_SOCKET!
-      );
+      provider = new ethers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
+      // provider = new ethers.WebSocketProvider(
+      //   process.env.NEXT_PUBLIC_WEB_SOCKET!
+      // );
       const wallet = ethers.Wallet.createRandom();
       signer = wallet.connect(provider);
       return signer;

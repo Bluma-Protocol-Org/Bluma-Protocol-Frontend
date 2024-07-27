@@ -37,10 +37,10 @@ export const createEventSchema = z.object({
   ticketCost: z.coerce
     .number()
     .min(1, {
-      message: "Ticket cost must not be less than 1 ETH",
+      message: "Ticket cost must not be less than 1 BLUM",
     })
     .max(100, {
-      message: "Ticket cost must not be more than 100 ETH",
+      message: "Ticket cost must not be more than 100 BLUM",
     })
     .optional(),
 });

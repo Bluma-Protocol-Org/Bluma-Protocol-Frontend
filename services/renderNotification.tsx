@@ -34,7 +34,7 @@ export const createAccountSuccessEmail = async (email: string) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ email }),
-      }
+      },
     );
 
     if (response.ok) {
@@ -55,7 +55,7 @@ export const createAccountSuccessEmail = async (email: string) => {
 export const createEventSuccessEmail = async (
   email: string,
   eventTitle: string,
-  location: string
+  location: string,
 ) => {
   try {
     const response = await fetch(
@@ -71,7 +71,7 @@ export const createEventSuccessEmail = async (
           eventTitle,
           location,
         }),
-      }
+      },
     );
 
     if (response.ok) {
@@ -94,7 +94,7 @@ export const purchaseTicketSuccessEmail = async (
   creatorEmail: string,
   title: string,
   amount: number,
-  location: string
+  location: string,
 ) => {
   try {
     const [purchaseResponse, updateCreatorResponse] = await Promise.all([
@@ -124,7 +124,7 @@ export const purchaseTicketSuccessEmail = async (
             amount,
             title,
           }),
-        }
+        },
       ),
     ]);
 
@@ -139,6 +139,45 @@ export const purchaseTicketSuccessEmail = async (
       console.log("ERROR:", purchaseErrorData, updateCreatorErrorData);
       return false;
     }
+  } catch (error) {
+    console.log("ERROR CREATING EVENT:", error);
+    return false;
+  }
+};
+
+export const handlePayWithStripe = async (
+  amount: number,
+  eventName: string,
+  quantity: number,
+  redirectUrl: string,
+) => {
+  try {
+    const purchaseResponse = await fetch(
+      `${process.env.NEXT_PUBLIC_NOTIFICATION_ENDPOINT}/stripePayment/stripePaymentLink`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount,
+          eventName,
+          quantity,
+          redirectUrl,
+        }),
+      },
+    );
+    console.log(purchaseResponse);
+
+    if (!purchaseResponse.ok) {
+      throw new Error(`HTTP error! status: ${purchaseResponse.status}`);
+    }
+
+    const responseData = await purchaseResponse.text();
+    console.log("Response data:", responseData);
+
+    return responseData;
   } catch (error) {
     console.log("ERROR CREATING EVENT:", error);
     return false;

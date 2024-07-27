@@ -75,7 +75,7 @@ export default function EventCard({
             <span className="text-sm md:text-base font-medium">{title}</span>
 
             <span className="text-sm flex items-center font-medium">
-              {eventType === "PAID" ? `${ticketPrice} ETH` : "Free"}
+              {eventType === "PAID" ? `${ticketPrice} BLUM` : "Free"}
             </span>
           </h1>
 
@@ -208,7 +208,7 @@ export default function EventCard({
                 Ticket Price:
               </p>
               <p className="text-sm flex items-center font-medium">
-                {eventType === "PAID" ? `${ticketPrice} ETH` : "Free"}
+                {eventType === "PAID" ? `${ticketPrice} BLUM` : "Free"}
               </p>
             </div>
 

@@ -160,11 +160,9 @@ export default function CreateEventPage() {
       const result = await createEvent(refinedValues);
 
       if (result) {
-        const eventTitle = ethers.decodeBytes32String(refinedValues?.title);
-
         await createEventSuccessEmail(
           credentials?.email!,
-          eventTitle,
+          refinedValues?.title,
           refinedValues?.location
         );
         toast.success("Event created successfully");
@@ -596,7 +594,7 @@ export default function CreateEventPage() {
                     </div>
 
                     <h1 className="text-lg md:text-[22px] font-bold">
-                      Ticket cost (ETH)
+                      Ticket cost (BLUM)
                     </h1>
                     <p className="text-xs md:text-sm text-muted-foreground -mt-2">
                       You have the option to make your tickets free or for sale.

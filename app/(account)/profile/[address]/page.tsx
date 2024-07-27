@@ -14,6 +14,7 @@ import {
   getAllTickets,
   getUser,
 } from "@/services/bluma-contract";
+import { getUserBalance } from "@/services/bluma-token";
 import { LayoutList, List, Plus } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ interface IUserWithDetails {
   credentials: ICredential | undefined;
   hostedEvents: IEvent[] | undefined;
   attendedTickets: ITicket[] | undefined;
+  mintedTokenBalance: string | undefined;
 }
 
 export default function ProfilePage({
@@ -43,19 +45,22 @@ export default function ProfilePage({
       try {
         const user: ICredential | undefined = await getUser(address);
 
+        const mintedTokenBalance = await getUserBalance(address);
+
         const events = await getAllEvents();
         const tickets = await getAllTickets();
 
         const attendedTickets = tickets?.filter(
-          (ticket: any) => ticket?.buyer === user?.address
+          (ticket: any) => ticket?.buyer === user?.address,
         );
 
         const userWithDetails: IUserWithDetails = {
           credentials: user,
           hostedEvents: events?.filter(
-            (event: IEvent) => event?.owner?.address === user?.address
+            (event: IEvent) => event?.owner?.address === user?.address,
           ),
           attendedTickets: attendedTickets,
+          mintedTokenBalance: (mintedTokenBalance / 10 ** 18).toLocaleString(),
         };
 
         setCurrentUser(userWithDetails);
@@ -87,8 +92,9 @@ export default function ProfilePage({
                   "flex items-center justify-center rounded-sm text-xs text-center font-semibold cursor-pointer h-7 w-9 transition-colors",
                   {
                     "bg-secondary": !compact,
-                  }
-                )}>
+                  },
+                )}
+              >
                 <LayoutList size={16} />
               </div>
               <div
@@ -97,8 +103,9 @@ export default function ProfilePage({
                   "flex items-center justify-center rounded-sm text-xs text-center font-semibold cursor-pointer h-7 w-9 transition-colors",
                   {
                     "bg-secondary": compact,
-                  }
-                )}>
+                  },
+                )}
+              >
                 <List size={16} />
               </div>
             </div>
@@ -110,7 +117,8 @@ export default function ProfilePage({
             Array.from({ length: 4 }).map((_, _key) => (
               <div
                 className="flex items-start flex-col md:flex-row w-full gap-4 md:gap-6 group"
-                key={_key}>
+                key={_key}
+              >
                 <div className="mb-4 max-w-full md:max-w-[612px] w-full">
                   <div className="w-full h-max rounded-xl p-3 bg-secondary/30 flex flex-col sm:flex-row items-start justify-between gap-4 md:gap-6">
                     <div className="flex flex-col">
