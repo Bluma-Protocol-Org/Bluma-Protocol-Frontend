@@ -1332,7 +1332,7 @@ const BuyTicketPopup = ({
         amount,
         title,
         Number(numTicket),
-        `http://localhost:3000/event/event-payment-success?eventId=${eventId}&numTicket=${numTicket}&title=${title}&location=${location}&purchaserEmail=${purchaserEmail}&creatorEmail=${creatorEmail}`,
+        `https://bluma-protocol-frontend.vercel.app/event/event-payment-success?eventId=${eventId}&numTicket=${numTicket}&title=${title}&location=${location}&purchaserEmail=${purchaserEmail}&creatorEmail=${creatorEmail}`,
       );
 
       if (stripeResult) {
