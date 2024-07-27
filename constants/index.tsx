@@ -21,7 +21,7 @@ export const nav_links = [
 export const site = {
   name: "Bluma",
   description: "Delightful events start here.",
-  url: "https://bluma.vercel.app",
+  url: "https://bluma-protocol-frontend.vercel.app/",
   icon: "/assets/logo.png",
   author: "Abdullahi Salihu",
   profile: "https://ttatyz.vercel.app/",
