@@ -7,17 +7,16 @@ import {
   emitEventNotification,
   purchaseTicketSuccessEmail,
 } from "@/services/renderNotification";
-import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-const PaymentSuccessPage = () => {
-  const searchParams = useSearchParams();
-  const eventId = searchParams.get("eventId");
-  const numTicket = searchParams.get("numTicket");
-  const purchaserEmail = searchParams.get("purchaserEmail");
-  const creatorEmail = searchParams.get("creatorEmail");
-  const title = searchParams.get("title");
-  const location = searchParams.get("location");
+const PaymentSuccessPage = ({ searchParams }: { searchParams: any }) => {
+  const eventId = searchParams.eventId;
+  const numTicket = searchParams.numTicket;
+  const purchaserEmail = searchParams.purchaserEmail;
+  const creatorEmail = searchParams.creatorEmail;
+  const title = searchParams.title;
+  const location = searchParams.location;
+
   async function sendPurchaseEmails() {
     if (
       eventId &&
