@@ -84,10 +84,8 @@ export default function EventCard({
             <span className="size-5 bg-secondary rounded-xl border relative">
               <Image
                 alt={owner?.address}
-                src={
-                  `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${owner?.avatar}` ||
-                  `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV`
-                }
+                src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${owner?.avatar}`}
+                defaultValue="https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"
                 width={20}
                 height={20}
                 priority
@@ -187,6 +185,7 @@ export default function EventCard({
                     `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${owner?.avatar}` ||
                     `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV`
                   }
+                  defaultValue="https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"
                   width={20}
                   height={20}
                   priority
@@ -251,6 +250,7 @@ export default function EventCard({
                 `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${imageUrl}` ||
                 `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ`
               }
+              defaultValue="https://blue-quickest-opossum-600.mypinata.cloud/ipfs/Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ"
               alt={title}
               priority
               width={147}
