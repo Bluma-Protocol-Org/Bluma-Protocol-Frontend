@@ -16,6 +16,10 @@ const nextConfig = {
       },
       {
         protocol: "https",
+        hostname: "blue-quickest-opossum-600.mypinata.cloud",
+      },
+      {
+        protocol: "https",
         hostname: "cdn.dribbble.com",
       },
     ],

@@ -37,7 +37,8 @@ export default function EventCard({
   return compact ? (
     <Link
       href={`/event/${eventId}`}
-      className="flex flex-col w-full sm:hover:bg-secondary/50 sm:rounded-lg transition-opacity mb-4 last:mb-0 sm:mb-0 sm:p-4">
+      className="flex flex-col w-full sm:hover:bg-secondary/50 sm:rounded-lg transition-opacity mb-4 last:mb-0 sm:mb-0 sm:p-4"
+    >
       <div className="pb-2 mb-2 border-b">
         <p className="text-sm font-medium text-muted-foreground">
           {eventStatus === "OPEN" ? (
@@ -83,7 +84,10 @@ export default function EventCard({
             <span className="size-5 bg-secondary rounded-xl border relative">
               <Image
                 alt={owner?.address}
-                src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${owner?.avatar}`}
+                src={
+                  `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${owner?.avatar}` ||
+                  `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV`
+                }
                 width={20}
                 height={20}
                 priority
@@ -116,7 +120,8 @@ export default function EventCard({
                   {...props}
                 />
               ),
-            }}>
+            }}
+          >
             {description}
           </ReactMarkdown>
         </div>
@@ -129,8 +134,9 @@ export default function EventCard({
         {
           "mb-10 last:mb-0": !hide,
           "mb-4 last:mb-0": hide,
-        }
-      )}>
+        },
+      )}
+    >
       {!hide && (
         <div className="flex-1 h-full hidden sm:block md:sticky md:top-20">
           <p className="relative font-semibold text-sm sm:text-base md:pb-10">
@@ -150,9 +156,10 @@ export default function EventCard({
           "max-w-full md:max-w-[612px] w-full transition-transform duration-300 cursor-pointer",
           {
             "group-hover:-translate-y-3": !hide,
-          }
+          },
         )}
-        href={`/event/${eventId}`}>
+        href={`/event/${eventId}`}
+      >
         <div className="w-full rounded-xl border p-3 sm:pl-4 bg-secondary/50 flex flex-col sm:flex-row items-start justify-between gap-4 md:gap-6">
           <div className="flex flex-col flex-1 w-full sm:w-max">
             <p className="text-sm font-medium text-muted-foreground">
@@ -176,7 +183,10 @@ export default function EventCard({
               <span className="size-5 bg-secondary rounded-xl border relative">
                 <Image
                   alt={owner?.address}
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${owner?.avatar}`}
+                  src={
+                    `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${owner?.avatar}` ||
+                    `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV`
+                  }
                   width={20}
                   height={20}
                   priority
@@ -227,7 +237,8 @@ export default function EventCard({
               ) : (
                 <Badge
                   variant="destructive"
-                  className="w-max text-xs font-medium">
+                  className="w-max text-xs font-medium"
+                >
                   Ended
                 </Badge>
               )}
@@ -236,7 +247,10 @@ export default function EventCard({
 
           <div className="bg-background/50 w-full sm:w-[155px] aspect-[1.2] sm:aspect-square rounded-lg overflow-hidden">
             <Image
-              src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${imageUrl}`}
+              src={
+                `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${imageUrl}` ||
+                `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ`
+              }
               alt={title}
               priority
               width={147}

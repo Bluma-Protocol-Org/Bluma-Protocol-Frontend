@@ -12,7 +12,7 @@ interface IUserWithDetails {
   credentials: ICredential | undefined;
   hostedEvents: IEvent[] | undefined;
   attendedTickets: ITicket[] | undefined;
-  mintedTokenBalance: string | undefined
+  mintedTokenBalance: string | undefined;
 }
 
 export default function ProfileCard({
@@ -39,7 +39,8 @@ export default function ProfileCard({
   return (
     <div
       key={currentUser?.credentials?.address}
-      className="pb-0 sm:pb-4 lex flex-col border-b">
+      className="pb-0 sm:pb-4 lex flex-col border-b"
+    >
       <div className="w-full max-w-[680px] mx-auto">
         <div className="bg-secondary/50 border-b lg:border w-full h-52 rounded-none lg:rounded-2xl"></div>
 
@@ -48,7 +49,10 @@ export default function ProfileCard({
             <div className="size-24 sm:size-[108px] rounded-xl bg-background p-1 lg:border">
               <div className="size-full bg-secondary rounded-lg overflow-hidden">
                 <Image
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${currentUser?.credentials?.avatar}`}
+                  src={
+                    `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${currentUser?.credentials?.avatar || "QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}` ||
+                    `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${currentUser?.credentials?.avatar}`
+                  }
                   alt={currentUser?.credentials?.email as string}
                   width={104}
                   height={104}

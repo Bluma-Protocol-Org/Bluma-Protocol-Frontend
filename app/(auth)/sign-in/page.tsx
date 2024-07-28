@@ -239,7 +239,10 @@ const EmailForm = ({
             <div className="rounded-full w-16 h-16 bg-secondary/60 flex items-center justify-center relative">
               {userAvatar ? (
                 <Image
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${userAvatar}`}
+                  src={
+                    `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${userAvatar}` ||
+                    `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${userAvatar}`
+                  }
                   alt="avatar"
                   fill
                   className="object-cover rounded-[inherit]"

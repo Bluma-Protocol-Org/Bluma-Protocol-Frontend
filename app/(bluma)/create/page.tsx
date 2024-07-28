@@ -224,7 +224,7 @@ export default function CreateEventPage() {
             src={
               bannerUrl
                 ? URL.createObjectURL(bannerUrl)
-                : `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${randomBannerCID}`
+                : `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${randomBannerCID}`
             }
             alt="banner"
             fill

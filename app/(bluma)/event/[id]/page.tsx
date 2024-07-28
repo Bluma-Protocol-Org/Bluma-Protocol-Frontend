@@ -114,7 +114,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Filter out the admin from the ticket buyers
         const nonAdminTicketBuyers = allTickets.filter(
           (ticket: any) =>
-            ticket.buyer.toLowerCase() !== event?.owner?.address.toLowerCase(),
+            ticket.buyer.toLowerCase() !== event?.owner?.address.toLowerCase()
         );
 
         // Set the ticket buyers excluding the admin
@@ -123,7 +123,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Check if the current user has bought a ticket
         const hasBoughtTicket = nonAdminTicketBuyers.some(
           (ticket: any) =>
-            ticket.buyer.toLowerCase() === credentials?.address.toLowerCase(),
+            ticket.buyer.toLowerCase() === credentials?.address.toLowerCase()
         );
         setHasBoughtTicket(hasBoughtTicket);
       }
@@ -134,7 +134,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         // Check if current user is in the group
         const isMemberInGroup = members.some(
           (member: any) =>
-            member.address.toLowerCase() === credentials?.address.toLowerCase(),
+            member.address.toLowerCase() === credentials?.address.toLowerCase()
         );
         setHasJoinedGroup(isMemberInGroup);
       }
@@ -168,7 +168,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "TicketPurchased",
         async (buyer, _eventId, numberOfTickets) => {
           await fetchEventData(Number(_eventId));
-        },
+        }
       );
 
       // RefundIssued event listener
@@ -176,7 +176,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "RefundIssued",
         async (buyer, _ticketId, _eventId, amount) => {
           await fetchEventData(Number(_eventId));
-        },
+        }
       );
 
       // GroupCreated event listener
@@ -189,7 +189,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
         "GroupJoinedSuccessfully",
         async (_sender, _eventId, _joinedTimw) => {
           await fetchEventData(Number(_eventId));
-        },
+        }
       );
 
       return () => {
@@ -231,7 +231,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
       <div className="flex flex-col gap-4 max-w-full md:max-w-[350px] w-full h-max md:sticky md:top-[86px]">
         <div className="w-full bg-secondary/50 rounded-xl aspect-square relative">
           <Image
-            src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${event?.imageUrl}`}
+            src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${
+              event?.imageUrl ||
+              "Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ"
+            }`}
             alt="banner"
             width={350}
             height={350}
@@ -254,7 +257,8 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 <span className="size-5 bg-secondary rounded-full border relative">
                   <Image
                     alt={event?.owner?.address as string}
-                    src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${event?.owner?.avatar}`}
+                    src={
+                      `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${event?.owner?.avatar || "QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}`}
                     width={20}
                     height={20}
                     priority
@@ -286,7 +290,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                   >
                     <Image
                       alt={member?.address as string}
-                      src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${member?.avatar}`}
+                      src={
+                        `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${member?.avatar || "QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}` ||
+                        `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${member?.avatar}`
+                      }
                       width={32}
                       height={32}
                       priority
@@ -440,12 +447,12 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                   !event.room?.imageUrl
                     ? "Create a room"
                     : event.room.members.length === 1
-                      ? "No one has joined your group"
-                      : event.room.members.length === 2
-                        ? "There's someone in your group, say hello!"
-                        : `You have ${
-                            event.room.members.length - 1
-                          } members in your group`)}
+                    ? "No one has joined your group"
+                    : event.room.members.length === 2
+                    ? "There's someone in your group, say hello!"
+                    : `You have ${
+                        event.room.members.length - 1
+                      } members in your group`)}
               </p>
 
               {!event?.room?.title &&
@@ -471,7 +478,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 <div className="rounded-full size-10 bg-secondary mb-1">
                   <Image
                     alt={credentials?.address as string}
-                    src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                    src={
+                      `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}` ||
+                      `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`
+                    }
                     width={40}
                     height={40}
                     priority
@@ -509,7 +519,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                   <span className="size-4 bg-secondary rounded-full relative">
                     <Image
                       alt={credentials?.address as string}
-                      src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                      src={
+                        `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}` ||
+                        `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`
+                      }  
                       width={32}
                       height={32}
                       priority
@@ -550,7 +563,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
               <div className="rounded-full size-10 bg-secondary mb-1">
                 <Image
                   alt={credentials?.address as string}
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                  src={
+                    `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}` ||
+                    `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`
+                  }
                   width={40}
                   height={40}
                   priority
@@ -636,7 +652,10 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                 <div className="rounded-full size-10 bg-secondary mb-1">
                   <Image
                     alt={credentials?.address as string}
-                    src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                    src={
+                      `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar || "QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV" }` ||
+                      `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`
+                    }
                     width={40}
                     height={40}
                     priority
@@ -660,7 +679,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
               <div className="rounded-full size-10 bg-secondary mb-1">
                 <Image
                   alt={credentials?.address as string}
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                  src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar}`}
                   width={40}
                   height={40}
                   priority
@@ -681,7 +700,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
               <div className="rounded-full size-10 bg-secondary mb-1">
                 <Image
                   alt={credentials?.address as string}
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                  src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar}`}
                   width={40}
                   height={40}
                   priority
@@ -772,7 +791,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
                     <span className="size-4 bg-secondary rounded-full relative">
                       <Image
                         alt={credentials?.address as string}
-                        src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                        src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar}`}
                         width={32}
                         height={32}
                         priority
@@ -815,7 +834,7 @@ export default function EventDetails({ params }: { params: { id: number } }) {
             <div className="rounded-full size-10 bg-secondary mb-1">
               <Image
                 alt={credentials?.address as string}
-                src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar}`}
                 width={40}
                 height={40}
                 priority
@@ -1076,7 +1095,7 @@ const MintingNFTPopup = ({
   creator: any;
   ticketBuyers: any;
 }) => {
-  const defaultNFT = "QmR2L6f8Z489SNoSP2rXeCEMv5V3Sf6TM4CZKEpjSMiQ4a";
+  const defaultNFT = "Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ";
 
   const [eventNFT, setEventNFT] = useState<File>();
   const [isMinting, setIsMinting] = useState<string | boolean>(MintingNFT.STOP);
@@ -1167,7 +1186,7 @@ const MintingNFTPopup = ({
               {
                 "border-0 cursor-not-allowed opacity-50":
                   isMinting !== MintingNFT.STOP,
-              },
+              }
             )}
           >
             <div className="relative size-full rounded-[inherit] overflow-hidden">
@@ -1180,7 +1199,7 @@ const MintingNFTPopup = ({
                 src={
                   eventNFT
                     ? URL.createObjectURL(eventNFT)
-                    : `https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${defaultNFT}`
+                    : `https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${defaultNFT}`
                 }
                 alt="event-nft"
                 fill
@@ -1273,13 +1292,13 @@ const BuyTicketPopup = ({
       if (eventType === "FREE") {
         someonePurchaseTicket = await purchaseFreeTicket(
           Number(eventId),
-          Number(numTicket),
+          Number(numTicket)
         );
       }
       if (eventType === "PAID") {
         someonePurchaseTicket = await purchaseFreeTicket(
           Number(eventId),
-          Number(numTicket),
+          Number(numTicket)
         );
       }
 
@@ -1289,7 +1308,7 @@ const BuyTicketPopup = ({
           creatorEmail,
           title,
           Number(numTicket),
-          location,
+          location
         );
 
         if (result) {
@@ -1299,7 +1318,7 @@ const BuyTicketPopup = ({
           });
         } else {
           console.log(
-            "There was an error processing the ticket purchase and/or notification.",
+            "There was an error processing the ticket purchase and/or notification."
           );
         }
         toast.success("You now have a space in this event.");
@@ -1332,7 +1351,7 @@ const BuyTicketPopup = ({
         amount,
         title,
         Number(numTicket),
-        `https://bluma-protocol-frontend.vercel.app/event/event-payment-success?eventId=${eventId}&numTicket=${numTicket}&title=${title}&location=${location}&purchaserEmail=${purchaserEmail}&creatorEmail=${creatorEmail}`,
+        `https://bluma-protocol-frontend.vercel.app/event/event-payment-success?eventId=${eventId}&numTicket=${numTicket}&title=${title}&location=${location}&purchaserEmail=${purchaserEmail}&creatorEmail=${creatorEmail}`
       );
 
       if (stripeResult) {
