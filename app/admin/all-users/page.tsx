@@ -101,7 +101,7 @@ export default function AllUsersPage() {
                   <TableCell className="flex items-center gap-2">
                     <div className="size-5 rounded-full bg-secondary">
                       <Image
-                        src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${user.avatar}`}
+                        src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${user.avatar || "QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}`}
                         alt={user.address}
                         width={20}
                         height={20}

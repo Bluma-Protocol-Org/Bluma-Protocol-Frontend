@@ -47,14 +47,14 @@ export const Authenticating = {
 };
 
 export const bannerCIDs = [
+  "QmPukaS5FJ5YVEAEC9c8mJnGAtrgeyFjrpRcJE6zr74gPC",
+  "QmRUS6LvXpK4pT2QS8SkssAjUy9r4hYjdNVKa9LPiKAM9g",
+  "Qmd7Lx9wGRYhbQCVhWHVpxpiaiVRvFwxqA9Duk7mh5xRmQ",
+  "QmYtCfux8Wri3oUNyzx7kQ6GJ4e4Ac6d9HsgbV9JdbR6xg",
+  "QmNd4N2EZw5zHhL1rCiAAyFoqNvwL51x4F85SHyKu63Ms9",
   "QmX68bpuiS63MgMXSnAS7V3k5xhiYA3L9n7qDmfZ6dqXa4",
-  "QmT2Atp4Pn9SBkpD25ePuGMngxuSeRRYMzdqDnLDbWEe58",
-  "QmdehrtoeNwcFdbKQFqcEVnViEHhuFN226riLZYbXNTrqV",
-  "QmY2y49AKysZgTPkaQHArx9u1Uag6Rpe8DRbyZ8j8eajwD",
-  "QmVYzRHesrW23MkdeUtj5qafbFqaBb5FJzLGHdskJrwM12",
-  "QmdbdSZDBQQ2tkrCcquZMhcFqWfxauvg5oyAnLm2zgg5E6",
-  "QmVgzAKuLzQimJJ5Hhy3Gd7KRME2dRm93xuMuoQM4bU4CL",
-  "QmdynREFrT5rRqxsnF8i8BYGiGs7irHwdsaJrmyEsYgR8k",
+  "Qmcqo1eiTAcXwv3ZYTrEsjz8VkRVTPmqkCPFZNcowF3QQJ",
+  "QmPukaS5FJ5YVEAEC9c8mJnGAtrgeyFjrpRcJE6zr74gPC",
 ];
 
 interface IEvent {

@@ -117,7 +117,7 @@ export default function Header() {
               <DropdownMenuTrigger className="rounded-full">
                 <ProfilePicture
                   size="sm"
-                  src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                  src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}`}
                   initials={"AS"}
                 />
               </DropdownMenuTrigger>
@@ -128,7 +128,7 @@ export default function Header() {
                     className="flex items-center gap-3 flex-1 p-3 hover:bg-secondary/50 rounded-sm">
                     <ProfilePicture
                       size="default"
-                      src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${credentials?.avatar}`}
+                      src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${credentials?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"}`}
                       initials={"AS"}
                     />
 

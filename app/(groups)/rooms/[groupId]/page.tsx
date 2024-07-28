@@ -138,7 +138,7 @@ export default function GroupChatPage({
                 >
                   <div className="rounded-lg hidden sm:flex bg-secondary size-6 relative">
                     <Image
-                      src={`https://bronze-gigantic-quokka-778.mypinata.cloud/ipfs/${item?.avatar}`}
+                      src={`https://blue-quickest-opossum-600.mypinata.cloud/ipfs/${item?.avatar ||"QmZVMhaKF2e3fQMD8Yzbq7Kx6WrgEwZH3EvqbaJ8UGQbiV"} `}
                       alt={item?.email}
                       width={24}
                       height={24}
