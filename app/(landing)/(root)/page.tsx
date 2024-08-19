@@ -42,15 +42,7 @@ export default function RootPage() {
               </Link>
             </Button>
           </div>
-          <div className="max-w-[550px] w-full relative px-4 lg:px-0">
-            <video
-              autoPlay
-              loop
-              muted
-              className="size-full select-none pointer-events-none hidden md:flex"
-              src="/assets/landing.webm"
-            />
-
+          <div className="max-w-[550px] w-full relative px-8">
             <Image
               src="/assets/landing.png"
               alt="landing"
@@ -58,7 +50,7 @@ export default function RootPage() {
               height={1224}
               priority
               quality={100}
-              className="size-full object-contain flex md:hidden"
+              className="size-full object-contain flex"
             />
           </div>
         </div>
